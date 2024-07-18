@@ -5,18 +5,27 @@ from .models import Course, Lesson
 
 
 class LessonSerializer(ModelSerializer):
+    """
+    Сериализатор для модели Lesson.
+    """
     class Meta:
         model = Lesson
         fields = '__all__'
 
 
 class CourseSerializer(ModelSerializer):
+    """
+    Сериализатор для модели Course.
+    """
     class Meta:
         model = Course
         fields = '__all__'
 
 
 class CourseDetailSerializer(ModelSerializer):
+    """
+    Сериализатор для детализированного представления модели Course.
+    """
     lesson_count = SerializerMethodField()
     lessons = LessonSerializer(many=True, read_only=True)
 

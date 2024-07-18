@@ -5,6 +5,9 @@ from lms.models import Course, Lesson
 
 
 class User(AbstractUser):
+    """
+    Модель пользователя, наследующая от AbstractUser.
+    """
     username = None
     email = models.EmailField(
         unique=True, verbose_name="Почта", help_text="Укажите почту"
@@ -42,6 +45,9 @@ class User(AbstractUser):
 
 
 class Payment(models.Model):
+    """
+    Модель для представления платежей.
+    """
     PAYMENT_METHOD_CHOICES = [
         ('cash', 'Наличные'),
         ('transfer', 'Перевод на счет'),
