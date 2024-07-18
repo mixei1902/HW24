@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, status
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView
@@ -6,7 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 
 
-from .models import Payment
+from .models import Payment, User
 from .serializers import UserSerializer, PaymentSerializer
 
 

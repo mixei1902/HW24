@@ -1,6 +1,8 @@
 from rest_framework.generics import CreateAPIView, UpdateAPIView, DestroyAPIView, ListAPIView, RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
+from users.permissions import IsModerator, CanEditLessonOrCourse
 from .models import Course, Lesson
 from .serializers import CourseSerializer, LessonSerializer, CourseDetailSerializer
 
@@ -19,6 +21,20 @@ class CourseViewSet(ModelViewSet):
             return CourseDetailSerializer
         return CourseSerializer
 
+    def get_permissions(self):
+        """
+        Определяет права доступа в зависимости от действия.
+        """
+        if self.action in ['update', 'partial_update']:
+            self.permission_classes = [IsAuthenticated, IsModerator | CanEditLessonOrCourse]
+        elif self.action == 'destroy':
+            self.permission_classes = [IsAuthenticated, IsModerator]
+        elif self.action == 'create':
+            self.permission_classes = [IsAuthenticated, IsModerator]
+        else:
+            self.permission_classes = [IsAuthenticated]
+        return super().get_permissions()
+
 
 class LessonCreateAPIView(CreateAPIView):
     """
@@ -26,7 +42,7 @@ class LessonCreateAPIView(CreateAPIView):
     """
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-
+    permission_classes = [IsAuthenticated, IsModerator]
 
 class LessonListAPIView(ListAPIView):
     """
@@ -34,7 +50,7 @@ class LessonListAPIView(ListAPIView):
     """
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-
+    permission_classes = [IsAuthenticated, IsModerator]
 
 class LessonUpdateAPIView(UpdateAPIView):
     """
@@ -42,7 +58,7 @@ class LessonUpdateAPIView(UpdateAPIView):
     """
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-
+    permission_classes = [IsAuthenticated, IsModerator | CanEditLessonOrCourse]
 
 class LessonDestroyAPIView(DestroyAPIView):
     """
@@ -50,7 +66,7 @@ class LessonDestroyAPIView(DestroyAPIView):
     """
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-
+    permission_classes = [IsAuthenticated, IsModerator]
 
 class LessonRetrieveAPIView(RetrieveAPIView):
     """
@@ -58,3 +74,4 @@ class LessonRetrieveAPIView(RetrieveAPIView):
     """
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
+    permission_classes = [IsAuthenticated,]
