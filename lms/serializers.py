@@ -1,13 +1,16 @@
-from rest_framework.fields import SerializerMethodField
+from rest_framework.fields import SerializerMethodField, URLField
 from rest_framework.serializers import ModelSerializer
 
 from .models import Course, Lesson
+from .validators import validate_forbidden_words
 
 
 class LessonSerializer(ModelSerializer):
     """
     Сериализатор для модели Lesson.
     """
+    video_url = URLField(validators=[validate_forbidden_words])
+
     class Meta:
         model = Lesson
         fields = '__all__'
