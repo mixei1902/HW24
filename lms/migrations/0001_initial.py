@@ -8,36 +8,111 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Course',
+            name="Course",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(help_text='Укажите название курса', max_length=255, verbose_name='Название курса')),
-                ('preview', models.ImageField(blank=True, help_text='Загрузите аватар', null=True, upload_to='course_previews/', verbose_name='Аватар')),
-                ('description', models.TextField(help_text='Опишите содержание курса', verbose_name='Описание курса')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "title",
+                    models.CharField(
+                        help_text="Укажите название курса",
+                        max_length=255,
+                        verbose_name="Название курса",
+                    ),
+                ),
+                (
+                    "preview",
+                    models.ImageField(
+                        blank=True,
+                        help_text="Загрузите аватар",
+                        null=True,
+                        upload_to="course_previews/",
+                        verbose_name="Аватар",
+                    ),
+                ),
+                (
+                    "description",
+                    models.TextField(
+                        help_text="Опишите содержание курса",
+                        verbose_name="Описание курса",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Курс',
-                'verbose_name_plural': 'Курсы',
+                "verbose_name": "Курс",
+                "verbose_name_plural": "Курсы",
             },
         ),
         migrations.CreateModel(
-            name='Lesson',
+            name="Lesson",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(help_text='Укажите название урока', max_length=255, verbose_name='Название урока')),
-                ('description', models.TextField(help_text='Опишите содержание урока', verbose_name='Описание')),
-                ('preview', models.ImageField(blank=True, help_text='Загрузите изображение', null=True, upload_to='lesson_previews/', verbose_name='Превью')),
-                ('video_url', models.URLField(blank=True, help_text='Заполните ссылку на видео', null=True, verbose_name='Ссылка на видео')),
-                ('course', models.ForeignKey(help_text='Выберите курс', on_delete=django.db.models.deletion.CASCADE, related_name='lessons', to='lms.course', verbose_name='Курс')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "title",
+                    models.CharField(
+                        help_text="Укажите название урока",
+                        max_length=255,
+                        verbose_name="Название урока",
+                    ),
+                ),
+                (
+                    "description",
+                    models.TextField(
+                        help_text="Опишите содержание урока", verbose_name="Описание"
+                    ),
+                ),
+                (
+                    "preview",
+                    models.ImageField(
+                        blank=True,
+                        help_text="Загрузите изображение",
+                        null=True,
+                        upload_to="lesson_previews/",
+                        verbose_name="Превью",
+                    ),
+                ),
+                (
+                    "video_url",
+                    models.URLField(
+                        blank=True,
+                        help_text="Заполните ссылку на видео",
+                        null=True,
+                        verbose_name="Ссылка на видео",
+                    ),
+                ),
+                (
+                    "course",
+                    models.ForeignKey(
+                        help_text="Выберите курс",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="lessons",
+                        to="lms.course",
+                        verbose_name="Курс",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Урок',
-                'verbose_name_plural': 'Уроки',
+                "verbose_name": "Урок",
+                "verbose_name_plural": "Уроки",
             },
         ),
     ]

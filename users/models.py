@@ -8,6 +8,7 @@ class User(AbstractUser):
     """
     Модель пользователя, наследующая от AbstractUser.
     """
+
     username = None
     email = models.EmailField(
         unique=True, verbose_name="Почта", help_text="Укажите почту"
@@ -48,16 +49,35 @@ class Payment(models.Model):
     """
     Модель для представления платежей.
     """
+
     PAYMENT_METHOD_CHOICES = [
-        ('cash', 'Наличные'),
-        ('transfer', 'Перевод на счет'),
+        ("cash", "Наличные"),
+        ("transfer", "Перевод на счет"),
     ]
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, verbose_name="Пользователь"
+    )
     payment_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата оплаты")
-    course = models.ForeignKey(Course, null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Оплаченный курс")
-    lesson = models.ForeignKey(Lesson, null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Оплаченный урок")
-    amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Сумма оплаты")
-    payment_method = models.CharField(max_length=10, choices=PAYMENT_METHOD_CHOICES, verbose_name="Способ оплаты")
+    course = models.ForeignKey(
+        Course,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name="Оплаченный курс",
+    )
+    lesson = models.ForeignKey(
+        Lesson,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name="Оплаченный урок",
+    )
+    amount = models.DecimalField(
+        max_digits=10, decimal_places=2, verbose_name="Сумма оплаты"
+    )
+    payment_method = models.CharField(
+        max_length=10, choices=PAYMENT_METHOD_CHOICES, verbose_name="Способ оплаты"
+    )
 
     class Meta:
         verbose_name = "Платеж"
@@ -65,4 +85,3 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.amount} - {self.payment_date}"
-

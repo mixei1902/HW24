@@ -11,22 +11,31 @@ class UserSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'first_name', 'last_name', 'phone', 'city', 'avatar', 'password')
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = (
+            "id",
+            "email",
+            "first_name",
+            "last_name",
+            "phone",
+            "city",
+            "avatar",
+            "password",
+        )
+        extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
         """
         Создание нового пользователя с хешированным паролем.
         """
         user = User(
-            email=validated_data['email'],
-            first_name=validated_data['first_name'],
-            last_name=validated_data['last_name'],
-            phone=validated_data['phone'],
-            city=validated_data['city'],
-            avatar=validated_data['avatar']
+            email=validated_data["email"],
+            first_name=validated_data["first_name"],
+            last_name=validated_data["last_name"],
+            phone=validated_data["phone"],
+            city=validated_data["city"],
+            avatar=validated_data["avatar"],
         )
-        user.set_password(validated_data['password'])
+        user.set_password(validated_data["password"])
         user.save()
         return user
 
@@ -38,4 +47,4 @@ class PaymentSerializer(ModelSerializer):
 
     class Meta:
         model = Payment
-        fields = '__all__'
+        fields = "__all__"

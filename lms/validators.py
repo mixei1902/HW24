@@ -15,5 +15,7 @@ def validate_forbidden_words(value):
         if word in value:
             raise ValidationError(f"Ссылки на {word} запрещены.")
 
-    if not value.startswith('https://www.youtube.com') and not value.startswith('https://youtu.be'):
+    if not value.startswith("https://www.youtube.com") and not value.startswith(
+        "https://youtu.be"
+    ):
         raise ValidationError("Допустимы только ссылки на youtube.com.")

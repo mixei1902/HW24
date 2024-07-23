@@ -7,7 +7,7 @@ class IsModerator(BasePermission):
     """
 
     def has_permission(self, request, view):
-        return request.user.groups.filter(name='moder').exists()
+        return request.user.groups.filter(name="moder").exists()
 
 
 class CanEditLessonOrCourse(BasePermission):
@@ -34,4 +34,4 @@ class IsNotModerator(BasePermission):
     """
 
     def has_permission(self, request, view):
-        return not request.user.groups.filter(name='moder').exists()
+        return not request.user.groups.filter(name="moder").exists()
