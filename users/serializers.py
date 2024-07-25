@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer
 
+from .models import CoursePurchase
 from .models import Payment
 
 
@@ -48,3 +49,9 @@ class PaymentSerializer(ModelSerializer):
     class Meta:
         model = Payment
         fields = "__all__"
+
+
+class CoursePurchaseSerializer(ModelSerializer):
+    class Meta:
+        model = CoursePurchase
+        fields = ['course', 'amount']
