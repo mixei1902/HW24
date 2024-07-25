@@ -53,20 +53,20 @@ class LessonTestCase(APITestCase):
         self.assertEqual(response.data["title"], self.lesson.title)
 
     #
-    # def test_lesson_update(self):
-    #     """
-    #     Тестирование обновления урока.
-    #     """
-    #     url = reverse("lms:lessons_update", args=(self.lesson.pk,))
-    #     updated_data = {
-    #         "title": "Updated Test Lesson",
-    #         "description": "Updated Test Description",
-    #         "video_url": "https://www.youtube.com/",
-    #         "course": self.course.pk,
-    #     }
-    #     response = self.client.put(url, updated_data)
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
-    #     self.assertEqual(response.data['title'], "Updated Test Lesson")
+    def test_lesson_update(self):
+        """
+        Тестирование обновления урока.
+        """
+        url = reverse("lms:lessons_update", args=(self.lesson.pk,))
+        updated_data = {
+            "title": "Updated Test Lesson",
+            "description": "Updated Test Description",
+            "video_url": "https://www.youtube.com/",
+            "course": self.course.pk,
+        }
+        response = self.client.put(url, updated_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['title'], "Updated Test Lesson")
     #
     def test_lesson_delete(self):
         """
