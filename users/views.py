@@ -42,6 +42,13 @@ class UserListView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        print("Queryset: ", queryset)
+        for user in queryset:
+            print(user.id, user.email)
+        return queryset
+
 
 class UserDetailView(RetrieveUpdateDestroyAPIView):
     """
@@ -76,8 +83,12 @@ class PaymentListAPIView(ListAPIView):
 class CoursePurchaseCreateAPIView(CreateAPIView):
     serializer_class = CoursePurchaseSerializer
     queryset = CoursePurchase.objects.all()
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
+        user = self.request.user
+        if not isinstance(user, User):
+            raise ValueError("User is not authenticated or valid.")
         purchase = serializer.save(user=self.request.user)
         amount_in_dollars = convert_rub_to_dollars(purchase.amount)
         price = create_stripe_price(amount_in_dollars)

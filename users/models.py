@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-
 from lms.models import Course, Lesson
 
 
@@ -21,15 +20,14 @@ class User(AbstractUser):
         verbose_name="Телефон",
         help_text="Укажите телефон",
     )
-    city = (
-        models.CharField(
-            max_length=50,
-            blank=True,
-            null=True,
-            verbose_name="Город",
-            help_text="Укажите город",
-        ),
+    city = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        verbose_name="Город",
+        help_text="Укажите город",
     )
+
     avatar = models.ImageField(
         upload_to="users/avatars",
         blank=True,
@@ -86,7 +84,6 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.amount} - {self.payment_date}"
-
 
 
 class CoursePurchase(models.Model):
