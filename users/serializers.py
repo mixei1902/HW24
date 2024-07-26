@@ -1,7 +1,6 @@
-from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer
 
-from .models import CoursePurchase
+from .models import CoursePurchase, User
 from .models import Payment
 
 
@@ -12,7 +11,7 @@ class UserSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'first_name', 'last_name', 'phone', 'city', 'avatar')
+        fields = ("id", "email", "first_name", "last_name", "phone", "city", "avatar")
         extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
@@ -32,7 +31,6 @@ class UserSerializer(ModelSerializer):
         return user
 
 
-
 class PaymentSerializer(ModelSerializer):
     """
     Сериализатор для модели Payment.
@@ -46,4 +44,4 @@ class PaymentSerializer(ModelSerializer):
 class CoursePurchaseSerializer(ModelSerializer):
     class Meta:
         model = CoursePurchase
-        fields = ['course', 'amount']
+        fields = ["course", "amount"]

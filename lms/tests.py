@@ -66,7 +66,8 @@ class LessonTestCase(APITestCase):
         }
         response = self.client.put(url, updated_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['title'], "Updated Test Lesson")
+        self.assertEqual(response.data["title"], "Updated Test Lesson")
+
     #
     def test_lesson_delete(self):
         """

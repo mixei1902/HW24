@@ -10,7 +10,8 @@ from .views import (
     UserListView,
     UserDetailView,
     LogoutView,
-    PaymentListAPIView, CoursePurchaseCreateAPIView,
+    PaymentListAPIView,
+    CoursePurchaseCreateAPIView,
 )
 
 app_name = UsersConfig.name
@@ -23,5 +24,7 @@ urlpatterns = [
     path("users/", UserListView.as_view(), name="user_list"),
     path("users/<int:pk>/", UserDetailView.as_view(), name="user_detail"),
     path("payments/", PaymentListAPIView.as_view(), name="payment-list"),
-    path('create-payment/', CoursePurchaseCreateAPIView.as_view(), name='create_payment'),
+    path(
+        "create-payment/", CoursePurchaseCreateAPIView.as_view(), name="create_payment"
+    ),
 ]
