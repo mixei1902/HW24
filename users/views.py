@@ -12,7 +12,7 @@ from .models import CoursePurchase
 from .models import Payment, User
 from .serializers import CoursePurchaseSerializer
 from .serializers import UserSerializer, PaymentSerializer
-from .services import create_stripe_price, create_stripe_session, convert_rub_to_dollars
+from .services import create_stripe_price, create_stripe_session
 
 
 class UserCreateAPIView(CreateAPIView):
@@ -81,16 +81,20 @@ class PaymentListAPIView(ListAPIView):
 
 
 class CoursePurchaseCreateAPIView(CreateAPIView):
+    """
+    APIView для создания покупки курса и инициации Stripe платежа.
+    """
+
     serializer_class = CoursePurchaseSerializer
     queryset = CoursePurchase.objects.all()
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        user = self.request.user
-        if not isinstance(user, User):
-            raise ValueError("User is not authenticated or valid.")
+        """
+        Сохраняет объект CoursePurchase и создает Stripe сессию оплаты.
+        """
         purchase = serializer.save(user=self.request.user)
-        amount_in_dollars = convert_rub_to_dollars(purchase.amount)
+        amount_in_dollars = purchase.amount
         price = create_stripe_price(amount_in_dollars)
         session_id, payment_link = create_stripe_session(price.id)
         purchase.session_id = session_id

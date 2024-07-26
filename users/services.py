@@ -11,14 +11,32 @@ def create_stripe_product(name, description):
     return product
 
 
-def create_stripe_price(product_id, amount):
-    price = stripe.Price.create(
-        unit_amount=int(amount * 100), currency="usd", product=product_id
+def convert_rub_to_dollars(amount):
+    """
+    Конвертируем рубли в доллары(не реализовал до конца, forex не работает)
+    """
+    c = CurrencyRates()
+    rate = c.get_rate("RUB", "USD")
+    return int(amount * rate)
+
+
+def create_stripe_price(amount):
+    """
+    Создает цену в Stripe.
+    """
+    return stripe.Price.create(
+        unit_amount=int(amount * 100),
+        currency="usd",
+        product_data={
+            "name": "Course Purchase",
+        },
     )
-    return price
 
 
 def create_stripe_session(price_id):
+    """
+    Создаёт платёжную сессию
+    """
     session = stripe.checkout.Session.create(
         payment_method_types=["card"],
         line_items=[
@@ -31,12 +49,3 @@ def create_stripe_session(price_id):
         success_url="http://127.0.0.1:8000/",
     )
     return session.id, session.url
-
-
-def convert_rub_to_dollars(amount):
-    """
-    Конвертируем рубли в доллары
-    """
-    c = CurrencyRates()
-    rate = c.get_rate("RUB", "USD")
-    return int(amount * rate)
