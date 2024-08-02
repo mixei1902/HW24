@@ -15,7 +15,7 @@ from users.permissions import IsModerator, CanEditLessonOrCourse, IsOwner
 from .models import Course, Lesson, Subscription
 from .pagination import CustomPagination
 from .serializers import CourseSerializer, LessonSerializer, CourseDetailSerializer
-
+from .tasks import send_course_update_emails
 
 class CourseViewSet(ModelViewSet):
     """
@@ -55,6 +55,14 @@ class CourseViewSet(ModelViewSet):
         Привязывает создаваемый курс к текущему пользователю.
         """
         serializer.save(owner=self.request.user)
+
+    def perform_update(self, serializer):
+        """
+        Обновляет курс и отправляет письма подписчикам.
+        """
+        course = serializer.save()
+        update_message = f"Курс '{course.title}' был обновлен. Проверьте новые материалы."
+        send_course_update_emails.delay(course.id, update_message)
 
 
 class LessonCreateAPIView(CreateAPIView):
