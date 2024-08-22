@@ -17,17 +17,18 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "-c", "pg_isready -U $DATABASE_USER"]
+      test: [ "CMD-SHELL", "pg_isready -U $DATABASE_USER" ]
       interval: 10s
       retries: 5
       timeout: 5s
+
 
   app:
     build: .
     tty: true
     ports:
       - "8000:8000"
-    command: sh -c "python manage.py makemigrate && python manage.py runserver 0.0.0.0:8000"
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     depends_on:
       db:
         condition: service_healthy
