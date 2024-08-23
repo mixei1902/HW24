@@ -15,9 +15,9 @@ services:
     expose:
       - "5432"
     volumes:
-      - pg_data:/var/lib/postgresql/data
+      - ./pg_data/:/var/lib/postgresql/data/
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U $DATABASE_USER" ]
+      test: ["CMD-SHELL", "-c", "pg_isready -d $POSTGRES_DB -U $POSTGRES_USER"]
       interval: 10s
       retries: 5
       timeout: 5s
